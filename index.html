@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa História de Amor</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            opacity: 0.2;
+            font-size: 20px;
+            animation: float 10s linear infinite;
+            color: #e74c3c;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #e74c3c;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .month-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #e74c3c;
+            margin: 20px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+        
+        .counter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .counter-item {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px 15px;
+            min-width: 90px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .counter-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .counter-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+        
+        .counter-label {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .images-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .image-frame {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .image-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.7) 0%, rgba(255, 154, 158, 0.4) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        
+        .image-frame:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .image-frame:hover::before {
+            opacity: 1;
+        }
+        
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-frame:hover img {
+            transform: scale(1.1);
+        }
+        
+        .image-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .upload-label {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .upload-label:hover {
+            background-color: #c0392b;
+        }
+        
+        .music-player {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(to right, #f6d4d4, #fee7e7);
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .music-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+        
+        .music-controls {
+            margin-top: 15px;
+        }
+        
+        .music-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .music-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.1);
+        }
+        
+        .footer {
+            margin-top: 20px;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .month-message {
+                font-size: 2rem;
+            }
+            
+            .counter-item {
+                min-width: 70px;
+                padding: 15px 10px;
+            }
+            
+            .counter-number {
+                font-size: 1.5rem;
+            }
+            
+            .image-frame {
+                width: 180px;
+                height: 180px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .counter-container {
+                gap: 10px;
+            }
+            
+            .counter-item {
+                min-width: 60px;
+                padding: 10px 8px;
+            }
+            
+            .images-container {
+                gap: 15px;
+            }
+            
+            .image-frame {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="hearts-bg"></div>
+    
+    <div class="container">
+        <h1>Nossa História de Amor</h1>
+        
+        <div class="month-message" id="month-message">Feliz Mais Um Mês!</div>
+        
+        <div class="counter-container">
+            <div class="counter-item">
+                <div class="counter-number" id="years">0</div>
+                <div class="counter-label">Anos</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number" id="months">0</div>
+                <div class="counter-label">Meses</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number" id="days">0</div>
+                <div class="counter-label">Dias</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number" id="hours">0</div>
+                <div class="counter-label">Horas</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number" id="minutes">0</div>
+                <div class="counter-label">Minutos</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number" id="seconds">0</div>
+                <div class="counter-label">Segundos</div>
+            </div>
+        </div>
+        
+        <div class="images-container">
+            <div class="image-frame" id="frame1">
+                <img id="image1" src="img3.jpg.jpeg" alt="Adicione uma foto">
+                <div class="image-upload">
+                    <input type="file" id="upload1" accept="image/*">
+                    <label for="upload1" class="upload-label">Escolher Foto</label>
+                </div>
+            </div>
+            
+            <div class="image-frame" id="frame2">
+                <img id="image2" src="img4.jpg.jpeg" alt="Adicione uma foto">
+                <div class="image-upload">
+                    <input type="file" id="upload2" accept="image/*">
+                    <label for="upload2" class="upload-label">Escolher Foto</label>
+                </div>
+            </div>
+            
+            <div class="image-frame" id="frame3">
+                <img id="image3" src="img5.jpg.jpeg" alt="Adicione uma foto">
+                <div class="image-upload">
+                    <input type="file" id="upload3" accept="image/*">
+                    <label for="upload3" class="upload-label">Escolher Foto</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="music-player">
+            <div class="music-title">Nossa Música</div>
+            <div>Como Tudo Deve Ser - Charlie Brown Jr.</div>
+            <audio id="our-song" preload="auto">
+                <source src="Charlie Brown Jr - Como Tudo Deve Ser.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            <div class="music-controls">
+                <button class="music-btn" id="play-pause-btn">▶</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Desde 10/08/2023 - Eternamente juntos ❤️
+        </div>
+    </div>
+    
+    <script>
+      // Data inicial do relacionamento
+const startDate = new Date('2023-08-10T00:00:00');
+
+// Atualizar contador
+function updateCounter() {
+    const now = new Date();
+    const diff = now - startDate;
+    
+    // Calcular anos completos
+    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+    
+    // Calcular meses totais e meses excedentes após anos completos
+    const totalMonthsSinceStart = Math.floor((diff / (1000 * 60 * 60 * 24 * 30.4375)));
+    const months = totalMonthsSinceStart % 12;
+    
+    // Calcular dias restantes após meses completos
+    const millisecondsInMonth = 1000 * 60 * 60 * 24 * 30.4375;
+    const daysRemaining = diff - (totalMonthsSinceStart * millisecondsInMonth);
+    const days = Math.floor(daysRemaining / (1000 * 60 * 60 * 24));
+    
+    // Calcular horas, minutos e segundos restantes
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+    
+    // Atualizar elementos do contador
+    document.getElementById('years').textContent = years;
+    document.getElementById('months').textContent = months;
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    
+    // Atualizar mensagem de mês - calculando corretamente o número atual do mês
+    const currentMonthCount = totalMonthsSinceStart + 1; // +1 porque contamos o mês atual
+    document.getElementById('month-message').textContent = `Feliz ${currentMonthCount}º Mês!`;
+}
+
+// Atualizar o contador a cada segundo
+setInterval(updateCounter, 1000);
+updateCounter();
+        
+        // Configuração do player de música
+        const audio = document.getElementById('our-song');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        let isPlaying = false;
+        
+        // Iniciar música automaticamente (os navegadores modernos podem bloquear)
+        window.addEventListener('DOMContentLoaded', () => {
+            try {
+                audio.play();
+                isPlaying = true;
+                playPauseBtn.textContent = '⏸';
+            } catch (error) {
+                console.log('Reprodução automática bloqueada. Clique no botão para iniciar.');
+            }
+        });
+        
+        // Controlar reprodução da música
+        playPauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                playPauseBtn.textContent = '▶';
+            } else {
+                audio.play();
+                playPauseBtn.textContent = '⏸';
+            }
+            isPlaying = !isPlaying;
+        });
+        
+        // Upload de
+        
